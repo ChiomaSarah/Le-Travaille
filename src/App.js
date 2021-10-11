@@ -1,24 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+ } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import "./App.css";
+import Home from "./components/Home";
+import Jobs from "./components/Jobs";
+import AuthForms from "./components/jobSeeker/AuthForms";
+import Register from "./components/jobSeeker/Register";
+import Login from "./components/jobSeeker/Login";
+import Dashboard from "./components/jobSeeker/Dashboard";
+import useToken from "./useToken";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import Logout from "./components/jobSeeker/Logout";
+import Footer from "./components/Footer";
 
-function App() {
+toast.configure();
+
+function App(props) {
+  const { setToken } = useToken();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path="/" exact component={Home} />
+
+          <Route path="/jobs" exact component={Jobs} />
+
+          <Route path="/job_seeker" component={AuthForms} />
+
+          <Route
+            path="/auth/register"
+            component={() => <Register setToken={setToken} />}
+          />
+
+          <Route
+            path="/auth/login"
+            component={() => <Login setToken={setToken} />}
+          />
+
+          <Route
+            path="/auth/logout"
+            component={() => <Logout setToken={setToken} />}
+          />
+
+          <Route
+            path="/user/dashboard"
+            component={() => <Dashboard setToken={setToken} />}
+          />
+        </Switch>
+
+        <Footer />
+      </Router>
+    </>
   );
 }
 

@@ -1,38 +1,90 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.link:hover{
+  text-decoration: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  background: #fefefe;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+input,
+textarea,
+#search {
+  background: #ecf0f3;
+  padding: 10px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px rgb(156, 156, 156), inset -6px -6px 6px white;
+}
+
+#search {
+  width: 40%;
+}
+
+.card h4 {
+  border-bottom: 1px #777 solid;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.btn {
+  box-shadow: 6px 6px 6px #444444, -6px -6px 6px #222222;
+  transition: 0.5s;
+}
+
+.card {
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  transition: transform 200ms ease-in;
+  background: snow;
+  color: #343a40;
+}
+
+.card__title {
+  padding: 1.2rem;
+}
+
+.card__description {
+  padding: 0 1rem;
+}
+
+.card__btn {
+  padding: 0.7rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  background: transparent;
+  color: #343a40;
+  border-radius: 0.5rem;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card:hover .card__btn {
+  transition: 0.5s;
+  background: #343a40;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
