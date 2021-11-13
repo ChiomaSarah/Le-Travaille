@@ -14,15 +14,9 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-
   margin-bottom: 24px;
   padding: 24px;
   color: #fff;
-}
-
-.footer-subscription > p {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
 }
 
 .footer-subscription-heading {
@@ -87,82 +81,64 @@
   transition: 0.3s ease-out;
 }
 
-.footer-email-form h2 {
-  margin-bottom: 2rem;
-}
-
-.footer-input::placeholder {
-  color: #b1b1b1;
-}
-
 /* Social Icons */
 .social-icon-link {
   color: #fff;
   font-size: 24px;
 }
 
-.social-media {
-  max-width: 1000px;
-  width: 100%;
+.copyright-img {
+  border-radius: 50%;
 }
-
-.social-media-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  max-width: 1000px;
-  margin: 40px auto 0 auto;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 240px;
-}
-
-.social-logo {
-  color: #fff;
-  justify-self: start;
-  margin-left: 20px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
 .website-rights {
   color: #fff;
-  margin-bottom: 16px;
 }
 
-@media screen and (max-width: 820px) {
-  .footer-links {
-    padding-top: 2rem;
-  }
-
-  .footer-input {
-    width: 100%;
-  }
-
-  .btn {
-    width: 100%;
-  }
-
-  .footer-link-wrapper {
-    flex-direction: column;
-  }
-
-  .social-media-wrap {
-    flex-direction: column;
-  }
+.footer-btn {
+  background-color: #ddd;
 }
 
-@media screen and (max-width: 768px) {
-  .footer-container{
+.footer-btn a:hover {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+  .footer-container {
     margin-top: 60%;
   }
+
+  /* .footer-subscription-heading {
+    
+    font-size: 16px;
+  }
+  
+  .footer-subscription-text {
+    
+    font-size: 14px;
+  }
+  
+  .footer-btn a{
+    font-size: 10px;
+  }
+  
+  .footer-link-items > h3 {
+    font-size: 18px;
+  }
+  
+  .footer-links {
+   
+    display: block;
+    
+   
+  }
+  .footer-link-items {
+    
+    margin: 1em auto;
+    
+    width: 100px;
+    
+  }
+  .copyright {
+    margin: 1rem auto;
+  } */
 }

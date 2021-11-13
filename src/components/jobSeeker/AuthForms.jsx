@@ -7,7 +7,6 @@ import Box from "@material-ui/core/Box";
 import Login from "./Login";
 import Register from "./Register";
 
-
 const AuthForms = () => {
   const [value, setValue] = useState(0);
 
@@ -16,11 +15,12 @@ const AuthForms = () => {
   };
 
   const paperStyle = {
-    width: "38%",
-    height: "100vh",
-    margin: "2rem auto",
-    paddingTop: "0px",
+    width: 380,
+    margin: "3em auto",
+    height: "79vh",
+    borderRadius: "0.5rem",
   };
+
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -42,28 +42,26 @@ const AuthForms = () => {
   }
 
   return (
-    <div>
-      <Paper style={paperStyle}>
-        <Tabs
-          value={value}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleChange}
-          aria-label="disabled tabs example"
-        >
-          <Tab label="Register" style={{ width: 450 }} />
+    <Paper elevation={20} style={paperStyle}>
+      <Tabs
+        value={value}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={handleChange}
+        aria-label="disabled tabs example"
+      >
+        <Tab label="Register" style={{ margin: "0rem auto", width: "50%" }} />
+        <Tab label="Login" style={{ margin: "0rem auto", width: "50%" }} />
+      </Tabs>
 
-          <Tab label="Login" style={{ width: 450 }} />
-        </Tabs>
-        <TabPanel value={value} index={0}>
-          <Register handleChange={handleChange} />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Login handleChange={handleChange} />
-        </TabPanel>
-      </Paper>
-    </div>
+      <TabPanel value={value} index={0}>
+        <Register handleChange={handleChange} />
+      </TabPanel>
+
+      <TabPanel value={value} index={1}>
+        <Login />
+      </TabPanel>
+    </Paper>
   );
 };
-
 export default AuthForms;

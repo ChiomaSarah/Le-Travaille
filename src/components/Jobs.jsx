@@ -18,7 +18,6 @@ function Jobs(props) {
   const [searchQuery, setSearchQuery] = useState("");
   let [error, setError] = useState("");
 
-  // fetch all books from the database
   useEffect(() => {
     async function getJobs() {
       try {
@@ -27,7 +26,7 @@ function Jobs(props) {
           "https://le-travaille-server.herokuapp.com/api/jobs",
 
           {
-            method: "get",
+            method: "GET",
             headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
@@ -62,14 +61,14 @@ function Jobs(props) {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // if page is loading, display a spinning wheel... else, render the jobs list
-     if (loading) {
-      return <Loader />;
-    }
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div>
       <div className="container mt-5 mb-5">
-        <h3 className="text-center">Jobs</h3>
+        <h3 className="text-center">JOBS</h3>
 
         {error && (
           <Alert severity="error" onClick={() => setError(null)}>
@@ -78,7 +77,7 @@ function Jobs(props) {
         )}
 
         <div>
-          {/* create a search bar to find a book */}
+          {/* create a search filter */}
           <input
             type="text"
             placeholder="Find a job..."
@@ -86,7 +85,7 @@ function Jobs(props) {
             id="search"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          {/* create a dynamic table */}{" "}
+
           <div className="wrapper">
             {currentJobs
               .filter((val) => {

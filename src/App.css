@@ -4,8 +4,9 @@
   padding: 0;
 }
 
-.link:hover{
-  text-decoration: none;
+.navbar-brand,
+.nav-item {
+  padding: 0 1rem;
 }
 
 body {
@@ -87,4 +88,23 @@ textarea,
   color: white;
 }
 
+.update-btn,
+.delete-btn {
+  background: transparent;
+  color: #343a40;
+  border-radius: 0.5rem;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+}
 
+.update-btn:hover {
+  transition: 0.5s;
+  background: #02468a;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  transition: 0.5s;
+  background: #cc0000;
+  color: #fff;
+}

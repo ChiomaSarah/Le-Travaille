@@ -6,42 +6,59 @@ function Navbar() {
   const { token } = useToken();
 
   return (
-    <nav className="navbar bg-dark">
-    <Link to="/" className="link text-light">
-      <h3 className="text-light">Le Travaille</h3>
+    <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+      <Link to="/">
+        <h4 className="text-light navbar-brand">Le-Travaille</h4>
       </Link>
-      <h6>
-        <Link to="/" className="link text-light">
-          Home
-        </Link>
-      </h6>
-      <h6>
-        <Link to="/jobs" className="link text-light">
-          Jobs
-        </Link>
-      </h6>
 
-      {token ? (
-        <h6>
-          <Link to="/user/dashboard" className="link text-light">
-            Dashboard
-          </Link>
-        </h6>
-      ) : (
-        <h6>
-          <Link to="/job_seeker" className="link text-light">
-            Job Seeker
-          </Link>
-        </h6>
-      )}
+      <button
+        className="navbar-toggler bg-light"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
 
-      {!token ? null : (
-        <h6>
-          <Link to="/auth/logout" className="link text-light">
-           Logout
-          </Link>
-        </h6>
-      )}
+      <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li className="nav-item">
+            <Link to="/" className="nav-link text-light">
+              Home
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/jobs" className="nav-link text-light">
+              Jobs
+            </Link>
+          </li>
+
+          {token ? (
+            <li className="nav-item">
+              <Link to="/user/dashboard" className="nav-link text-light">
+                Dashboard
+              </Link>
+            </li>
+          ) : (
+            <li className="nav-item">
+              <Link to="/job_seeker" className="nav-link text-light">
+                Job Seeker
+              </Link>
+            </li>
+          )}
+
+          {!token ? null : (
+            <li className="nav-item">
+              <Link to="/auth/logout" className="nav-link text-light">
+                Logout
+              </Link>
+            </li>
+          )}
+        </ul>
+      </div>
     </nav>
   );
 }

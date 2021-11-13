@@ -2,7 +2,6 @@ import React from "react";
 import { toast } from "react-toastify";
 
 const Logout = () => {
-  
   const check = window.confirm("You are about to logout.");
   if (check) {
     sessionStorage.removeItem("token");

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useToken from "../../useToken";
 import MuiAlert from "@material-ui/lab/Alert";
 import UpdateProfile from "./UpdateProfile";
-import DeleteProfile from "./DeleteAccount";
+import DeleteProfile from "./DeleteProfile";
 
 import "./Dashboard.css";
 
@@ -19,10 +19,13 @@ const Dashboard = (props) => {
   useEffect(() => {
     async function getName() {
       try {
-        const response = await fetch(`https://le-travaille-server.herokuapp.com/user/dashboard/`, {
-          method: "GET",
-          headers: { token: token },
-        });
+        const response = await fetch(
+          `https://le-travaille-server.herokuapp.com/user/dashboard/`,
+          {
+            method: "GET",
+            headers: { token: token },
+          }
+        );
         const result = await response.json();
 
         // console.log(result);
@@ -43,7 +46,7 @@ const Dashboard = (props) => {
   }, [token]);
 
   return (
-    <div className="text-center mt-5" >
+    <div className="text-center mt-5">
       <div className="container">
         {error && (
           <Alert severity="error" onClick={() => setError(null)}>
@@ -51,7 +54,7 @@ const Dashboard = (props) => {
           </Alert>
         )}
       </div>
-      <h1>Welcome, {name}</h1>
+      <h3>Welcome, {name}</h3>
 
       <div className="container">
         {profiles?.map((profile) => (
@@ -63,13 +66,18 @@ const Dashboard = (props) => {
                   <img src={profile.image_url} alt="user's avatar" />
                 </div>
                 <div className="info">
-                  <div className="title">{profile.username}</div>
-                  <div className="desc">{profile.age}</div>
-                  <div className="desc">{profile.degree}</div>
-                  <div className="desc">{profile.experience}</div>
-                  <div className="desc">{profile.location}</div>
-                  <div className="desc">{profile.email}</div>
-                  <div className="desc">{profile.user_id}</div>
+                  <div
+                    className="title"
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {profile.username}
+                  </div>
+                  <div className="desc">Login ID: {profile.user_id}</div>
+                  <div className="desc">Email: {profile.email}</div>
+                  <div className="desc">Age: {profile.age}</div>
+                  <div className="desc">Degree: {profile.degree}</div>
+                  <div className="desc">Experience: {profile.experience}</div>
+                  <div className="desc">Location: {profile.location}</div>
                 </div>
                 <div className="bottom btn-group">
                   <UpdateProfile profile={profile} />

@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 function Footer() {
   return (
@@ -10,18 +11,20 @@ function Footer() {
           Sign up now, to receive the best jobs out there.
         </p>
         <p className="footer-subscription-text">
-          Not yet a member,
+          Not yet a member ?
           <br />
-          <br />
-          <a href="/auth/register" target="_blank" rel="noreferrer">
-            {" "}
-            <button
-              className="btn btn-light "
-              style={{ background: "#ddd", fontWeight: "bold" }}
+          <br />{" "}
+          <Button
+            className="btn btn-light footer-btn"
+            style={{ background: "#ddd" }}
+          >
+            <a
+              href="/auth/register"
+              style={{ color: "#000", fontWeight: "bolder" }}
             >
               REGISTER HERE
-            </button>
-          </a>
+            </a>
+          </Button>
         </p>
       </section>
       <div className="footer-links">
@@ -29,7 +32,7 @@ function Footer() {
           <div className="footer-link-items">
             <h3>About Us</h3>
 
-            <Link to="/jobs">Careers</Link>
+            <Link to="/jobs">Jobs</Link>
           </div>
         </div>
 
@@ -44,9 +47,9 @@ function Footer() {
           >
             <i
               className="fab fa-linkedin-in pr-2"
-              style={{ fontSize: "28px", color: "#0066ff" }}
+              style={{ fontSize: "18px", color: "#0066ff" }}
             ></i>
-            Linkedin
+            LinkedIn
           </a>
 
           <a
@@ -57,28 +60,26 @@ function Footer() {
           >
             <i
               className="fab fa-twitter-square pr-2"
-              style={{ fontSize: "28px", color: "#0099ff" }}
+              style={{ fontSize: "18px", color: "#0099ff" }}
             ></i>
             Twitter
           </a>
         </div>
       </div>
 
-      <section className="social-media">
-        <div className="social-media-wrap">
-          <div className="footer-logo">
-            <Link to="/" className="social-logo">
-              Le Travaille
-              <img
-                src="https://i.ibb.co/QKBZTZ8/1630280532644.jpg"
-                className="pl-2"
-                width="60px"
-                height="50px"
-                alt="logo"
-              />
-            </Link>
-          </div>
-          <small className="website-rights">Le Travaille © 2021</small>
+      <section className="copyright">
+        <div>
+          <small className="website-rights">
+            Le-Travaille
+            <img
+              src="https://i.ibb.co/QKBZTZ8/1630280532644.jpg"
+              className="pl-1 copyright-img"
+              width="40px"
+              height="25px"
+              alt="logo"
+            />{" "}
+            © 2021
+          </small>
         </div>
       </section>
     </div>

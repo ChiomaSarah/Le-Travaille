@@ -9,6 +9,8 @@ function Alert(props) {
 }
 
 const Login = (props) => {
+  const paperStyle = { width: 380, margin: "0rem auto", height: "73vh" };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let [error, setError] = useState("");
@@ -24,12 +26,15 @@ const Login = (props) => {
         password,
       };
 
-      const response = await fetch("https://le-travaille-server.herokuapp.com/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch(
+        "https://le-travaille-server.herokuapp.com/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
 
-        body: JSON.stringify(body),
-      });
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
       // console.log(result);
@@ -49,20 +54,19 @@ const Login = (props) => {
   }
 
   return (
-    
-      <Grid>
-      <Paper style={{ height: "95vh" }}>
-        <div>
-          <section className="vh-100 gradient-custom">
-            <div className="container py-5 h-100">
-              <div className="row d-flex justify-content-center align-items-center h-100">
+    <Grid>
+      <Paper style={paperStyle}>
+        <section className="vh-100 gradient-custom">
+          <div className="container py-5 h-100">
+            <div className="row d-flex justify-content-center align-items-center h-100">
+              <div className="col-12 col-md-8 col-lg-6 col-xl-12">
                 <div
                   className="card bg-dark text-white"
                   style={{
-                    borderRadius: "0.2rem",
-                    width: "480px",
-                    height: "90vh",
-                    marginTop: "-2rem",
+                    borderRadius: "0.5rem",
+                    // width: "400px",
+                    height: "65vh",
+                    marginTop: "-10.5rem",
                   }}
                 >
                   <div className="card-body p-5 text-center">
@@ -80,7 +84,6 @@ const Login = (props) => {
                           Please enter your email and password!
                         </Typography>
 
-                        
                         <div className="form-group form-white ">
                           <input
                             type="email"
@@ -101,13 +104,10 @@ const Login = (props) => {
                           />
                         </div>
 
-                        
-
-                        
                         <Button
                           className="btn text-light btn-md px-5 mt-4"
                           type="submit"
-                          style={{fontWeight: "bold"}}
+                          style={{ fontWeight: "bold" }}
                         >
                           Login
                         </Button>
@@ -117,9 +117,8 @@ const Login = (props) => {
                 </div>
               </div>
             </div>
-            {/* </div> */}
-          </section>
-        </div>
+          </div>
+        </section>
       </Paper>
     </Grid>
   );

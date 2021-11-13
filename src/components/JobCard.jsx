@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const JobCard = ({ job }) => {
   return (
     <div className="card">
