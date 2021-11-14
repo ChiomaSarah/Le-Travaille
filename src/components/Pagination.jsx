@@ -10,9 +10,8 @@ const Pagination = ({ jobsPerPage, totalPage, paginate }) => {
     <div>
       <nav aria-label="Page navigation">
         <ul className="pagination  justify-content-center ">
-          <h5 className=" mr-4 pt-2">Pages:</h5>
           {pageNumbers.map((number) => (
-            <li key={number} className="page-item pl-1 pr-1">
+            <li key={number} className="page-item px-1">
               <a
                 style={{ borderRadius: "20%", color: "#343a40" }}
                 onClick={() => paginate(number)}

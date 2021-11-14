@@ -14,7 +14,7 @@ function Jobs(props) {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage] = useState(9);
+  const [jobsPerPage] = useState(20);
   const [searchQuery, setSearchQuery] = useState("");
   let [error, setError] = useState("");
 
