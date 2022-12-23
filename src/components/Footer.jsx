@@ -16,7 +16,7 @@ function Footer() {
           <br />{" "}
           <Button
             className="btn btn-light footer-btn"
-            style={{ background: "#ddd" }}
+            style={{ background: "#f7e6da" }}
           >
             <a
               href="/auth/register"

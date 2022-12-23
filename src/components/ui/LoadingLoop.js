@@ -9,7 +9,6 @@ const LoadingLoop = () => {
         width: "200px",
         margin: "4rem auto",
         display: "block",
-        background: "transparent",
       }}
       alt="Loading..."
     />

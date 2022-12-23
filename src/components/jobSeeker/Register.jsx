@@ -10,7 +10,7 @@ function Alert(props) {
 }
 
 const Register = (props) => {
-  const paperStyle = { width: 380, margin: "0 auto", height: "93vh" };
+  const paperStyle = { width: 380, margin: "0 auto", height: "93vh", background: "rgb(247, 230, 218)" };
 
   let history = useHistory();
 
@@ -112,6 +112,7 @@ const Register = (props) => {
                             placeholder="Username"
                             value={data.username}
                             onChange={handleChange("username")}
+                            style={{ background: "#f7e6da" }}
                           />
                         </div>
                         <div className="form-group form-white ">
@@ -122,6 +123,7 @@ const Register = (props) => {
                             placeholder="Email"
                             value={data.email}
                             onChange={handleChange("email")}
+                            style={{ background: "#f7e6da" }}
                           />
                         </div>
 
@@ -134,6 +136,7 @@ const Register = (props) => {
                               placeholder="Password"
                               value={data.password}
                               onChange={handleChange("password")}
+                              style={{ background: "#f7e6da" }}
                             />
                           </div>
                           <div className="form-group col-5 col-md-5">
@@ -145,6 +148,7 @@ const Register = (props) => {
                               placeholder="Age"
                               value={data.age}
                               onChange={handleChange("age")}
+                              style={{ background: "#f7e6da" }}
                             />
                           </div>
                         </div>
@@ -158,6 +162,7 @@ const Register = (props) => {
                               placeholder="Degree"
                               value={data.degree}
                               onChange={handleChange("degree")}
+                              style={{ background: "#f7e6da" }}
                             />
                           </div>
                           <div className="form-group col-6 col-md-6">
@@ -168,6 +173,7 @@ const Register = (props) => {
                               placeholder="Experience"
                               value={data.experience}
                               onChange={handleChange("experience")}
+                              style={{ background: "#f7e6da" }}
                             />
                           </div>
                         </div>
@@ -181,6 +187,7 @@ const Register = (props) => {
                               placeholder="Location"
                               value={data.location}
                               onChange={handleChange("location")}
+                              style={{ background: "#f7e6da" }}
                             />
                           </div>
                           <div className="form-group col-7 col-md-8">
@@ -190,6 +197,7 @@ const Register = (props) => {
                               accept=".jpg, .png, .jpeg"
                               name="image"
                               onChange={handleChange("image")}
+                              style={{ background: "#f7e6da" }}
                             />
                           </div>
                         </div>

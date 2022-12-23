@@ -9,7 +9,7 @@ function Alert(props) {
 }
 
 const Login = (props) => {
-  const paperStyle = { width: 380, margin: "0rem auto", height: "73vh" };
+  const paperStyle = { width: 380, margin: "0 auto", height: "72vh", background: "rgb(247, 230, 218)" };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,7 +66,7 @@ const Login = (props) => {
                     borderRadius: "0.5rem",
                     // width: "400px",
                     height: "65vh",
-                    marginTop: "-10.5rem",
+                    marginTop: "-8.5rem",
                   }}
                 >
                   <div className="card-body p-5 text-center">
@@ -91,6 +91,7 @@ const Login = (props) => {
                             name="email"
                             placeholder="Email"
                             onChange={(e) => setEmail(e.target.value)}
+                            style={{ background: "#f7e6da" }}
                           />
                         </div>
 
@@ -101,6 +102,7 @@ const Login = (props) => {
                             name="password"
                             placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)}
+                            style={{ background: "#f7e6da" }}
                           />
                         </div>
 

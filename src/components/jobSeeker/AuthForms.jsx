@@ -49,6 +49,7 @@ const AuthForms = () => {
         textColor="primary"
         onChange={handleChange}
         aria-label="disabled tabs example"
+        style={{background: "rgb(247, 230, 218)" }}
       >
         <Tab label="Register" style={{ margin: "0rem auto", width: "50%" }} />
         <Tab label="Login" style={{ margin: "0rem auto", width: "50%" }} />
