@@ -20,7 +20,7 @@ const Dashboard = (props) => {
     async function getName() {
       try {
         const response = await fetch(
-          `https://le-travaille-server.herokuapp.com/user/dashboard/`,
+          `https://le-travaille-backend.up.railway.app/user/dashboard/`,
           {
             method: "GET",
             headers: { token: token },

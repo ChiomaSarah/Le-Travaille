@@ -23,7 +23,7 @@ function Jobs(props) {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://le-travaille-server.herokuapp.com/api/jobs",
+          "https://le-travaille-backend.up.railway.app/api/jobs",
 
           {
             method: "GET",

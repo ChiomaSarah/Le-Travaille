@@ -27,7 +27,7 @@ const Login = (props) => {
       };
 
       const response = await fetch(
-        "https://le-travaille-server.herokuapp.com/auth/login",
+        "https://le-travaille-backend.up.railway.app/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
