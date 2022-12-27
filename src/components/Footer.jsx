@@ -11,7 +11,7 @@ function Footer() {
           Sign up now, to receive the best jobs out there.
         </p>
         <p className="footer-subscription-text">
-          Not yet a member ?
+          Don't have an account ?
           <br />
           <br />{" "}
           <Button
@@ -69,7 +69,7 @@ function Footer() {
 
       <section className="copyright">
         <div>
-          <small className="website-rights">
+          <small className="ownership">
             Le-Travaille
             <img
               src="https://i.ibb.co/QKBZTZ8/1630280532644.jpg"

@@ -65,6 +65,7 @@ function UpdateProfile({ profile }) {
             disabled={true}
             className="form-control"
             placeholder="Username"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
         <Modal.Body>
@@ -75,6 +76,7 @@ function UpdateProfile({ profile }) {
             disabled={true}
             className="form-control"
             placeholder="Email"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
         <Modal.Body>
@@ -85,6 +87,7 @@ function UpdateProfile({ profile }) {
             disabled={true}
             className="form-control"
             placeholder="Password"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
         <Modal.Body>
@@ -96,6 +99,7 @@ function UpdateProfile({ profile }) {
             min="18"
             className="form-control"
             placeholder="Age"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
 
@@ -107,6 +111,7 @@ function UpdateProfile({ profile }) {
             value={degree}
             className="form-control"
             placeholder="Degree"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
 
@@ -118,6 +123,7 @@ function UpdateProfile({ profile }) {
             value={experience}
             className="form-control"
             placeholder="Experience"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
 
@@ -129,11 +135,13 @@ function UpdateProfile({ profile }) {
             value={location}
             className="form-control"
             placeholder="Location"
+            style={{ background: "#f7e6da" }}
           ></input>
         </Modal.Body>
 
         <Modal.Footer>
           <Button
+            className="modal-btn"
             type="button"
             variant="success"
             onClick={(e) => saveChanges(e)}
@@ -141,7 +149,12 @@ function UpdateProfile({ profile }) {
             Save Changes
           </Button>
 
-          <Button type="button" variant="secondary" onClick={handleClose}>
+          <Button
+            className="modal-btn"
+            type="button"
+            variant="secondary"
+            onClick={handleClose}
+          >
             Close
           </Button>
         </Modal.Footer>

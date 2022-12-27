@@ -57,13 +57,13 @@ const DeleteProfile = ({ profile }, props) => {
           <Modal.Title>Delete Profile</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>Are you sure you want to delete this record?</Modal.Body>
-        <Modal.Body>All registered data will be discarded</Modal.Body>
+        <Modal.Body>Are you sure you want to delete your profile?</Modal.Body>
+        <Modal.Body>All registered data will be discarded.</Modal.Body>
 
         <Modal.Footer>
           <Button
             type="button"
-            className="btn btn-warning"
+            className="btn-warning modal-btn"
             onClick={(e) => removeProfile(e, profile.user_id)}
           >
             Delete
@@ -71,7 +71,7 @@ const DeleteProfile = ({ profile }, props) => {
 
           <Button
             type="button"
-            className="btn btn-secondary"
+            className="btn-secondary modal-btn"
             onClick={handleClose}
           >
             Close

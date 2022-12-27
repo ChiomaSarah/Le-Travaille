@@ -74,23 +74,18 @@
   text-decoration: none;
   margin-bottom: 0.5rem;
   font-size: 16px;
+  padding-left: 1.5em;
 }
 
 .footer-link-items a:hover {
-  color: #e9e9e9;
+  color: #f7e6da;
   transition: 0.3s ease-out;
-}
-
-/* Social Icons */
-.social-icon-link {
-  color: #fff;
-  font-size: 24px;
 }
 
 .copyright-img {
   border-radius: 50%;
 }
-.website-rights {
+.ownership {
   color: #fff;
 }
 
@@ -106,39 +101,4 @@
   .footer-container {
     margin-top: 60%;
   }
-
-  /* .footer-subscription-heading {
-    
-    font-size: 16px;
-  }
-  
-  .footer-subscription-text {
-    
-    font-size: 14px;
-  }
-  
-  .footer-btn a{
-    font-size: 10px;
-  }
-  
-  .footer-link-items > h3 {
-    font-size: 18px;
-  }
-  
-  .footer-links {
-   
-    display: block;
-    
-   
-  }
-  .footer-link-items {
-    
-    margin: 1em auto;
-    
-    width: 100px;
-    
-  }
-  .copyright {
-    margin: 1rem auto;
-  } */
 }

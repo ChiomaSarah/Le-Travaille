@@ -66,3 +66,9 @@
 .bottom {
   margin: 1rem auto;
 }
+
+.modal-btn {
+  border-radius: 0.5rem;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  box-shadow: 6px 6px 6px #a2a1a1, -6px -6px 6px white;
+}
