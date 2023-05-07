@@ -2,8 +2,9 @@ import { Modal, Button } from "react-bootstrap";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function UpdateProfile({ profile }) {
-  const [username] = useState(profile.username);
+// const Dashboard = (props) => {
+const UpdateProfile = ({ profile }) => {
+  const [username, setUsername] = useState(profile.username);
   const [email] = useState(profile.email);
   const [password] = useState(profile.password);
   const [age, setAge] = useState(profile.age);
@@ -59,10 +60,10 @@ function UpdateProfile({ profile }) {
 
         <Modal.Body>
           <input
+            onChange={(e) => setUsername(e.target.value)}
             name="username"
             value={username}
             type="text"
-            disabled={true}
             className="form-control"
             placeholder="Username"
             style={{ background: "#f7e6da" }}
@@ -161,5 +162,5 @@ function UpdateProfile({ profile }) {
       </Modal>
     </>
   );
-}
+};
 export default UpdateProfile;
