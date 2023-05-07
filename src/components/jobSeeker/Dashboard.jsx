@@ -20,7 +20,7 @@ const Dashboard = (props) => {
     async function getName() {
       try {
         const response = await fetch(
-          `https://le-travaille-backend.up.railway.app/user/dashboard/`,
+          `https://le-travaille-server.onrender.com/user/dashboard/`,
           {
             method: "GET",
             headers: { token: token },
@@ -54,7 +54,7 @@ const Dashboard = (props) => {
           </Alert>
         )}
       </div>
-      <h3>Welcome, {name}</h3>
+      <h3 className="font-weight-bold">Welcome, {name}!</h3>
 
       <div className="container">
         {profiles?.map((profile) => (
@@ -67,17 +67,21 @@ const Dashboard = (props) => {
                 </div>
                 <div className="info">
                   <div
-                    className="title"
+                    className="title font-weight-bold"
                     style={{ textTransform: "capitalize" }}
                   >
                     {profile.username}
                   </div>
-                  <div className="desc">Login ID: {profile.user_id}</div>
-                  <div className="desc">Email: {profile.email}</div>
-                  <div className="desc">Age: {profile.age}</div>
-                  <div className="desc">Degree: {profile.degree}</div>
-                  <div className="desc">Experience: {profile.experience}</div>
-                  <div className="desc">Location: {profile.location}</div>
+
+                  <div className="desc text-left">Email: {profile.email}</div>
+                  <div className="desc text-left">Age: {profile.age}</div>
+                  <div className="desc text-left">Degree: {profile.degree}</div>
+                  <div className="desc text-left">
+                    Experience: {profile.experience}
+                  </div>
+                  <div className="desc text-left">
+                    Location: {profile.location}
+                  </div>
                 </div>
                 <div className="bottom btn-group">
                   <UpdateProfile profile={profile} />

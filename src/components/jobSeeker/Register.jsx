@@ -10,7 +10,12 @@ function Alert(props) {
 }
 
 const Register = (props) => {
-  const paperStyle = { width: 380, margin: "0 auto", height: "93vh", background: "rgb(247, 230, 218)" };
+  const paperStyle = {
+    width: 380,
+    margin: "0 auto",
+    height: "93vh",
+    background: "rgb(247, 230, 218)",
+  };
 
   let history = useHistory();
 
@@ -49,7 +54,7 @@ const Register = (props) => {
       formData.append("image", data.image);
 
       const response = await fetch(
-        "https://le-travaille-backend.up.railway.app/auth/register",
+        "https://le-travaille-server.onrender.com/auth/register",
         {
           method: "POST",
           body: formData,

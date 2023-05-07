@@ -23,7 +23,7 @@ function Jobs(props) {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://le-travaille-backend.up.railway.app/api/jobs",
+          "https://le-travaille-server.onrender.com/api/jobs",
 
           {
             method: "GET",
@@ -68,7 +68,7 @@ function Jobs(props) {
   return (
     <div>
       <div className="container mt-5 mb-5">
-        <h3 className="text-center">JOBS</h3>
+        <h3 className="text-center font-weight-bold">JOBS</h3>
 
         {error && (
           <Alert severity="error" onClick={() => setError(null)}>

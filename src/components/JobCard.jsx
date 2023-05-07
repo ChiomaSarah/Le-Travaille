@@ -38,7 +38,7 @@ const JobCard = ({ job }) => {
         target="_blank"
         rel="noreferrer"
       >
-        <button className="card__btn ">View Job</button>
+        <button className="card__btn">View Job</button>
       </a>
     </div>
   );

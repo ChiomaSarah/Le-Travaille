@@ -22,7 +22,7 @@ const DeleteProfile = ({ profile }, props) => {
     try {
       e.preventDefault();
       await fetch(
-        `https://le-travaille-server.herokuapp.com/user/dashboard/${profile.user_id}`,
+        `https://le-travaille-server.onrender.com/user/dashboard/${profile.user_id}`,
         {
           method: "DELETE",
           headers: {

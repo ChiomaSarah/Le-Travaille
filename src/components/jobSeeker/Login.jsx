@@ -9,7 +9,12 @@ function Alert(props) {
 }
 
 const Login = (props) => {
-  const paperStyle = { width: 380, margin: "0 auto", height: "72vh", background: "rgb(247, 230, 218)" };
+  const paperStyle = {
+    width: 380,
+    margin: "0 auto",
+    height: "72vh",
+    background: "rgb(247, 230, 218)",
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +32,7 @@ const Login = (props) => {
       };
 
       const response = await fetch(
-        "https://le-travaille-backend.up.railway.app/auth/login",
+        "https://le-travaille-server.onrender.com/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
