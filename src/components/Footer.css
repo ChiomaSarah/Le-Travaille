@@ -61,11 +61,11 @@
   box-sizing: border-box;
 }
 
-.footer-link-items h3 {
+.footer-link-items h5 {
   margin-bottom: 16px;
 }
 
-.footer-link-items > h3 {
+.footer-link-items > h5 {
   color: #fff;
 }
 
@@ -74,7 +74,7 @@
   text-decoration: none;
   margin-bottom: 0.5rem;
   font-size: 16px;
-  padding-left: 1.5em;
+
 }
 
 .footer-link-items a:hover {
@@ -82,11 +82,13 @@
   transition: 0.3s ease-out;
 }
 
+.copyright {
+  color: #fff;
+  margin-top: 2em;
+}
+
 .copyright-img {
   border-radius: 50%;
-}
-.ownership {
-  color: #fff;
 }
 
 .footer-btn {

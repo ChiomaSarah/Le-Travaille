@@ -30,14 +30,14 @@ function Footer() {
       <div className="footer-links">
         <div className="footer-link-wrapper">
           <div className="footer-link-items">
-            <h3>About Us</h3>
+            <h5>About Us</h5>
 
             <Link to="/jobs">Jobs</Link>
           </div>
         </div>
 
         <div className="footer-link-items">
-          <h3>Contact Us</h3>
+          <h5>Contact Us</h5>
 
           <a
             target="_blank"
@@ -69,7 +69,7 @@ function Footer() {
 
       <section className="copyright">
         <div>
-          <small className="ownership">
+          <small>
             Le-Travaille
             <img
               src="https://i.ibb.co/QKBZTZ8/1630280532644.jpg"
@@ -78,7 +78,7 @@ function Footer() {
               height="25px"
               alt="logo"
             />{" "}
-            © 2021
+            © 2021. All Rights Reserved.
           </small>
         </div>
       </section>
