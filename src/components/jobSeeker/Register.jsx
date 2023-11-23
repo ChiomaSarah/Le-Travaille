@@ -54,7 +54,7 @@ const Register = (props) => {
       formData.append("image", data.image);
 
       const response = await fetch(
-        "https://le-travaille-server.onrender.com/auth/register",
+        "https://le-travaille-server.cyclic.app/auth/register",
         {
           method: "POST",
           body: formData,

@@ -30,7 +30,7 @@ const UpdateProfile = ({ profile }) => {
       };
 
       const response = await fetch(
-        `https://le-travaille-server.onrender.com/user/dashboard/${profile.user_id}`,
+        `https://le-travaille-server.cyclic.app/user/dashboard/${profile.user_id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

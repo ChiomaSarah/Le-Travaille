@@ -23,7 +23,7 @@ function Jobs(props) {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://le-travaille-server.onrender.com/api/jobs",
+          "https://le-travaille-server.cyclic.app/api/jobs",
 
           {
             method: "GET",

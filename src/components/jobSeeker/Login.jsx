@@ -32,7 +32,7 @@ const Login = (props) => {
       };
 
       const response = await fetch(
-        "https://le-travaille-server.onrender.com/auth/login",
+        "https://le-travaille-server.cyclic.app/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
