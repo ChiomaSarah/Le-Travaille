@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import useToken from "../../useToken";
-import MuiAlert from "@material-ui/lab/Alert";
 import { Modal } from "react-bootstrap";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import axios from "axios";
+import Alert from "@mui/material/Alert";
+import { Collapse, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const DeleteProfile = ({ profile }, props) => {
   const { token } = useToken();
@@ -21,13 +20,10 @@ const DeleteProfile = ({ profile }, props) => {
   async function removeProfile(e, id) {
     try {
       e.preventDefault();
-      await fetch(
-        `https://le-travaille-server.cyclic.app/user/dashboard/${profile.user_id}`,
+      await axios.delete(
+        `https://le-travaille-server.onrender.com/user/dashboard/${profile.user_id}`,
         {
-          method: "DELETE",
           headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
             token: token,
           },
         }
@@ -35,7 +31,7 @@ const DeleteProfile = ({ profile }, props) => {
 
       setProfiles(profiles.filter((profile) => profile.user_id !== id));
       sessionStorage.removeItem("token");
-      toast.success("Profile deleted!");
+      toast.success("Your profile has been deleted!");
       window.location = "/auth/register";
     } catch (err) {
       setError(err.message);
@@ -45,9 +41,26 @@ const DeleteProfile = ({ profile }, props) => {
   return (
     <>
       {error && (
-        <Alert severity="error" onClick={() => setError(null)}>
-          {props.error || error}
-        </Alert>
+        <Collapse in={error}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setError(null);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            {error}
+          </Alert>
+        </Collapse>
       )}
       <Button className="delete-btn" onClick={handleShow}>
         Delete

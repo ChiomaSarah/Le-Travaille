@@ -6,7 +6,7 @@ function Navbar() {
   const { token } = useToken();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-light">
       <Link to="/">
         <h4 className="text-light navbar-brand">Le-Travaille</h4>
       </Link>
@@ -25,11 +25,6 @@ function Navbar() {
 
       <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-          <li className="nav-item">
-            <Link to="/" className="nav-link text-light">
-              Home
-            </Link>
-          </li>
           <li className="nav-item">
             <Link to="/jobs" className="nav-link text-light">
               Jobs

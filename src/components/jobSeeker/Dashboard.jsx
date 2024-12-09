@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import useToken from "../../useToken";
-import MuiAlert from "@material-ui/lab/Alert";
 import UpdateProfile from "./UpdateProfile";
 import DeleteProfile from "./DeleteProfile";
-
 import "./Dashboard.css";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Alert, Collapse, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   let [profiles, setProfiles] = useState([]);
@@ -19,39 +18,59 @@ const Dashboard = (props) => {
   useEffect(() => {
     async function getName() {
       try {
-        const response = await fetch(
-          `https://le-travaille-server.cyclic.app/user/dashboard/`,
+        const { data, status } = await axios.get(
+          `https://le-travaille-server.onrender.com/user/dashboard/`,
           {
-            method: "GET",
             headers: { token: token },
           }
         );
-        const result = await response.json();
 
-        // console.log(result);
-
-        if (response.ok) {
-          setName(result[0].username);
-
-          setProfiles(result);
+        if (status === 200) {
+          setName(data[0].username);
+          setProfiles(data);
         } else {
-          throw Error(result.error);
+          toast.error(data.message || "Error fetching data");
         }
       } catch (err) {
-        setError(err.message);
+        if (err.response && err.response.status === 401) {
+          toast.error("Your session has expired! Please log in again.");
+          setTimeout(() => {
+            window.replace("/auth/login");
+          }, 3000);
+        } else {
+          setError(err.message);
+        }
       }
     }
 
     getName();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
     <div className="text-center mt-5">
       <div className="container">
         {error && (
-          <Alert severity="error" onClick={() => setError(null)}>
-            {props.error || error}
-          </Alert>
+          <Collapse in={error}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setError(null);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {error}
+            </Alert>
+          </Collapse>
         )}
       </div>
       <h3 className="font-weight-bold">Welcome, {name}!</h3>

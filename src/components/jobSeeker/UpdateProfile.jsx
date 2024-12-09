@@ -1,8 +1,8 @@
 import { Modal, Button } from "react-bootstrap";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
-// const Dashboard = (props) => {
 const UpdateProfile = ({ profile }) => {
   const [username, setUsername] = useState(profile.username);
   const [email] = useState(profile.email);
@@ -11,6 +11,7 @@ const UpdateProfile = ({ profile }) => {
   const [degree, setDegree] = useState(profile.degree);
   const [experience, setExperience] = useState(profile.experience);
   const [location, setLocation] = useState(profile.location);
+  const [error, setError] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -20,31 +21,33 @@ const UpdateProfile = ({ profile }) => {
     try {
       e.preventDefault();
       const body = {
-        username: username,
-        email: email,
-        password: password,
-        age: age,
-        degree: degree,
-        experience: experience,
-        location: location,
+        username,
+        email,
+        password,
+        age,
+        degree,
+        experience,
+        location,
       };
 
-      const response = await fetch(
-        `https://le-travaille-server.cyclic.app/user/dashboard/${profile.user_id}`,
+      const { status } = await axios.patch(
+        `https://le-travaille-server.onrender.com/user/dashboard/${profile.user_id}`,
+        body,
         {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      if (response.ok) {
+      if (status === 200) {
         toast.success("Profile Updated!");
-        // console.log(response)
         window.location = "/user/dashboard";
       }
     } catch (err) {
-      console.error(err.message);
+      setError(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
     }
   }
 
@@ -67,7 +70,7 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Username"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
         <Modal.Body>
           <input
@@ -78,7 +81,7 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Email"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
         <Modal.Body>
           <input
@@ -89,7 +92,7 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Password"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
         <Modal.Body>
           <input
@@ -101,7 +104,7 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Age"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
 
         <Modal.Body>
@@ -113,7 +116,7 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Degree"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
 
         <Modal.Body>
@@ -125,7 +128,7 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Experience"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
 
         <Modal.Body>
@@ -137,15 +140,23 @@ const UpdateProfile = ({ profile }) => {
             className="form-control"
             placeholder="Location"
             style={{ background: "#f7e6da" }}
-          ></input>
+          />
         </Modal.Body>
+
+        {error && (
+          <Modal.Body>
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          </Modal.Body>
+        )}
 
         <Modal.Footer>
           <Button
             className="modal-btn"
             type="button"
             variant="success"
-            onClick={(e) => saveChanges(e)}
+            onClick={saveChanges}
           >
             Save Changes
           </Button>
@@ -163,4 +174,5 @@ const UpdateProfile = ({ profile }) => {
     </>
   );
 };
+
 export default UpdateProfile;

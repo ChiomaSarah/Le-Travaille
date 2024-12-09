@@ -1,68 +1,94 @@
 import React, { useState } from "react";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Login from "./Login";
 import Register from "./Register";
+import { Box, Paper, Typography } from "@mui/material";
+import { styled } from "@mui/system";
+import { Fade } from "@mui/material";
+
+const AuthFormsContainer = styled(Box)({
+  background: "linear-gradient(135deg, #6C63FF, #3A8DFF)",
+  minHeight: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "20px",
+});
+
+const FormCard = styled(Paper)({
+  maxWidth: 500,
+  width: "100%",
+  padding: "2rem",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  backgroundColor: "#fff",
+});
 
 const AuthForms = () => {
-  const [value, setValue] = useState(0);
+  const [isLogin, setIsLogin] = useState(true);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleToggleForm = () => {
+    setIsLogin((prevState) => !prevState);
   };
-
-  const paperStyle = {
-    width: 380,
-    margin: "3em auto",
-    height: "79vh",
-    borderRadius: "0.5rem",
-  };
-
-  function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
 
   return (
-    <Paper elevation={20} style={paperStyle}>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="disabled tabs example"
-        style={{background: "rgb(247, 230, 218)" }}
-      >
-        <Tab label="Register" style={{ margin: "0rem auto", width: "50%" }} />
-        <Tab label="Login" style={{ margin: "0rem auto", width: "50%" }} />
-      </Tabs>
+    <AuthFormsContainer>
+      <FormCard sx={{ background: "#346B92" }}>
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{ color: "#fff" }}
+        >
+          {isLogin ? "Login" : "Register"}
+        </Typography>
 
-      <TabPanel value={value} index={0}>
-        <Register handleChange={handleChange} />
-      </TabPanel>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{
+            marginBottom: "20px",
+            color: "#d7c7bb",
+            textTransform: "none",
+            fontWeight: "bold",
+          }}
+        >
+          {isLogin ? (
+            <>
+              Don't have an account?{" "}
+              <span
+                onClick={handleToggleForm}
+                style={{
+                  color: "#fff",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}
+              >
+                Register
+              </span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span
+                onClick={handleToggleForm}
+                style={{
+                  color: "#fff",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}
+              >
+                Login
+              </span>
+            </>
+          )}
+        </Typography>
 
-      <TabPanel value={value} index={1}>
-        <Login />
-      </TabPanel>
-    </Paper>
+        <Fade in={true} timeout={500}>
+          <div>{isLogin ? <Login /> : <Register />}</div>
+        </Fade>
+      </FormCard>
+    </AuthFormsContainer>
   );
 };
+
 export default AuthForms;
