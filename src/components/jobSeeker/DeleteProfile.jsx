@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-import useToken from "../../useToken";
+import useToken from "../../utils/useToken";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
@@ -32,7 +32,7 @@ const DeleteProfile = ({ profile }, props) => {
       setProfiles(profiles.filter((profile) => profile.user_id !== id));
       sessionStorage.removeItem("token");
       toast.success("Your profile has been deleted!");
-      window.location = "/auth/register";
+      window.location = "/auth/signup";
     } catch (err) {
       setError(err.message);
     }

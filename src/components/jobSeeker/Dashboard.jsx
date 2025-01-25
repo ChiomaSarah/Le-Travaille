@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useToken from "../../useToken";
+import useToken from "../../utils/useToken";
 import UpdateProfile from "./UpdateProfile";
 import DeleteProfile from "./DeleteProfile";
 import "./Dashboard.css";

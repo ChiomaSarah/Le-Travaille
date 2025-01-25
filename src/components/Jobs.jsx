@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Loader from "./ui/LoadingLoop";
 import axios from "axios";
-import useToken from "../useToken";
+import useToken from "../utils/useToken";
 import {
   Alert,
   Button,
@@ -10,12 +10,12 @@ import {
   CardContent,
   Collapse,
   Container,
-  Grid2,
   IconButton,
   InputBase,
   Pagination,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -133,9 +133,9 @@ function Jobs() {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
 
-      <Grid2 container spacing={3}>
+      <Grid container spacing={3}>
         {currentJobs.map((job) => (
-          <Grid2 item xs={12} sm={6} md={6} key={job.id}>
+          <Grid item xs={12} sm={6} md={6} key={job.id}>
             <Card elevation={3}>
               <CardContent>
                 <Typography variant="h6" component="h2" gutterBottom>
@@ -188,9 +188,9 @@ function Jobs() {
                 </Button>
               </CardContent>
             </Card>
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
 
       <Pagination
         count={Math.ceil(filteredJobs.length / jobsPerPage)}

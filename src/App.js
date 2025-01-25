@@ -5,22 +5,24 @@ import "./App.css";
 import Home from "./components/Home";
 import Jobs from "./components/Jobs";
 import AuthForms from "./components/jobSeeker/AuthForms";
-import Register from "./components/jobSeeker/Register";
+import SignUp from "./components/jobSeeker/SignUp";
 import Login from "./components/jobSeeker/Login";
 import Dashboard from "./components/jobSeeker/Dashboard";
-import useToken from "./useToken";
+import useToken from "./utils/useToken";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Logout from "./components/jobSeeker/Logout";
 import Footer from "./components/Footer";
+import { ThemeProvider } from "@mui/material";
+import theme from "./utils/theme";
 
 toast.configure();
 
-function App(props) {
+function App() {
   const { setToken } = useToken();
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Router>
         <Navbar />
         <Switch>
@@ -31,8 +33,8 @@ function App(props) {
           <Route path="/job_seeker" component={AuthForms} />
 
           <Route
-            path="/auth/register"
-            component={() => <Register setToken={setToken} />}
+            path="/auth/signup"
+            component={() => <SignUp setToken={setToken} />}
           />
 
           <Route
@@ -53,7 +55,7 @@ function App(props) {
 
         <Footer />
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 

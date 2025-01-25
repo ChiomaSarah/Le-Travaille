@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Button,
-  Grid2,
-  Typography,
-  Box,
-  Container,
-  IconButton,
-} from "@mui/material";
+import { Button, Typography, Box, Container, IconButton } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import Link from "@mui/material/Link";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -14,16 +8,10 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 function Footer() {
   return (
     <Box sx={{ backgroundColor: "#414E70", py: 4 }}>
-      {" "}
       <Container maxWidth="lg">
-        <Grid2 container spacing={4} justifyContent="center" sx={{ py: 4 }}>
-          <Grid2 item xs={12} md={6}>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              align="center"
-              sx={{ color: "#fff" }}
-            >
+        <Grid container spacing={4} justifyContent="center" sx={{ py: 4 }}>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h6" align="center" sx={{ color: "#fff" }}>
               New here? Create an account to view current job listings.
             </Typography>
 
@@ -44,20 +32,14 @@ function Footer() {
                   },
                 }}
               >
-                REGISTER HERE
+                SIGN UP HERE
               </Button>
             </Box>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
 
-        <Grid2
-          container
-          spacing={6}
-          justifyContent="center"
-          // mt={4}
-          sx={{ py: 4 }}
-        >
-          <Grid2 item xs={12} sm={4} textAlign="center">
+        <Grid container spacing={6} justifyContent="center" sx={{ py: 4 }}>
+          <Grid item xs={12} sm={4} textAlign="center">
             <Typography
               variant="h6"
               fontWeight="bold"
@@ -82,9 +64,9 @@ function Footer() {
             >
               Jobs
             </Link>
-          </Grid2>
+          </Grid>
 
-          <Grid2 item xs={12} sm={4} textAlign="center">
+          <Grid item xs={12} sm={4} textAlign="center">
             <Typography variant="h6" fontWeight="bold" sx={{ color: "#fff" }}>
               Contact Us
             </Typography>
@@ -121,8 +103,8 @@ function Footer() {
                 <TwitterIcon />
               </IconButton>
             </Box>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
 
         <Box sx={{ textAlign: "center", py: 2 }}>
           <Typography variant="body2" color="#A9A9A9">
