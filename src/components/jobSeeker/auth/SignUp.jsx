@@ -14,17 +14,14 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
 import { CloudUpload, Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import useToken from "../../utils/useToken";
+import useToken from "../../../utils/useToken";
 import { toast } from "react-toastify";
 import { AuthFormsContainer, FormCard } from "./AuthForms";
-import {
-  neumorphismButtonStyle,
-  neumorphismInputStyle,
-} from "../../utils/neumorphism";
+import { neumorphismInputStyle } from "../../../utils/neumorphism";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [payload, setPayload] = useState({
@@ -41,8 +38,8 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const { setToken } = useToken();
+  const navigate = useNavigate();
 
   const handleChange = (name) => (e) => {
     const value = name === "image" ? e.target.files[0] : e.target.value;
@@ -80,13 +77,16 @@ const SignUp = () => {
       setToken(data);
 
       if (status === 201) {
-        toast.success("Welcome onboard! Please, login to continue.");
-        window.location = "/auth/login";
+        toast.success(
+          "Welcome onboard! You will be redirected to the login screen in a moment."
+        );
+        navigate("/auth/login");
       } else {
         toast.error(error.response.data.message);
       }
     } catch (err) {
-      setError(err.message);
+      console.log(err);
+      setError(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -211,10 +211,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.username ? "#F0F0F0" : "black",
                     top:
@@ -230,9 +237,10 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "1.5rem",
+                  marginBottom: "0.75rem",
                 }}
               />
+
               <TextField
                 label="Email"
                 variant="outlined"
@@ -251,10 +259,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.email ? "#F0F0F0" : "black",
                     top:
@@ -270,9 +285,10 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "1.5rem",
+                  marginBottom: "0.75rem",
                 }}
               />
+
               <TextField
                 label="Password"
                 variant="outlined"
@@ -301,10 +317,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.password ? "#F0F0F0" : "black",
                     top:
@@ -347,10 +370,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.age ? "#F0F0F0" : "black",
                     top:
@@ -365,9 +395,10 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "1.5rem",
+                  marginBottom: "0.75rem",
                 }}
               />
+
               <TextField
                 label="Degree"
                 variant="outlined"
@@ -385,10 +416,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.degree ? "#F0F0F0" : "black",
                     top:
@@ -403,9 +441,10 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "1.5rem",
+                  marginBottom: "0.75rem",
                 }}
               />
+
               <TextField
                 label="Experience"
                 variant="outlined"
@@ -423,10 +462,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.experience ? "#F0F0F0" : "black",
                     top:
@@ -441,7 +487,7 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "3rem",
+                  marginBottom: "1.5rem",
                 }}
               />
             </>
@@ -467,10 +513,17 @@ const SignUp = () => {
                   },
                 }}
                 sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    "& input": {
+                      padding: "8px 14px",
+                      fontSize: "14px",
+                    },
+                  },
                   "& .MuiInputLabel-root": {
                     position: "absolute",
                     left: "14px",
-                    fontSize: "0.875rem",
+                    fontSize: "0.8rem",
                     transition: "top 0.2s ease, font-size 0.2s ease",
                     color: payload.location ? "#F0F0F0" : "black",
                     top:
@@ -515,6 +568,7 @@ const SignUp = () => {
                     }}
                   />
                 </Button>
+
                 {payload.image && (
                   <Box
                     sx={{
@@ -535,21 +589,35 @@ const SignUp = () => {
             <Grid item xs={12} sm={6}>
               {currentStep > 0 && (
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={handlePrevStep}
-                  sx={neumorphismButtonStyle}
+                  sx={{
+                    color: "#FFF",
+                    backgroundColor: "#4C85B7",
+                    boxShadow:
+                      "8px 8px 20px rgba(0, 0, 0, 0.2), -8px -8px 20px rgba(255, 255, 255, 0.1)",
+                    "&:hover": {
+                      backgroundColor: "#346B92",
+                      boxShadow:
+                        "4px 4px 10px rgba(0, 0, 0, 0.15), -4px -4px 10px rgba(255, 255, 255, 0.1)",
+                    },
+                  }}
                 >
                   Previous
                 </Button>
               )}
             </Grid>
+
             <Grid item xs={12} sm={6}>
               {currentStep < 2 ? (
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleNextStep}
-                  sx={neumorphismButtonStyle}
+                  sx={{
+                    backgroundColor: "#FFD700",
+                    "&:hover": { backgroundColor: "#FFB800" },
+                  }}
                   disabled={isComplete()}
                 >
                   Next
@@ -559,7 +627,10 @@ const SignUp = () => {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  sx={neumorphismButtonStyle}
+                  sx={{
+                    backgroundColor: "#FFD700",
+                    "&:hover": { backgroundColor: "#FFB800" },
+                  }}
                   disabled={loading || isComplete()}
                 >
                   {loading ? (

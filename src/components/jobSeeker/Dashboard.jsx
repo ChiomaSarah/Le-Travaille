@@ -2,32 +2,45 @@ import React, { useState, useEffect } from "react";
 import useToken from "../../utils/useToken";
 import UpdateProfile from "./UpdateProfile";
 import DeleteProfile from "./DeleteProfile";
-import "./Dashboard.css";
 import axios from "axios";
+import {
+  Avatar,
+  Typography,
+  Paper,
+  Grid,
+  Box,
+  Collapse,
+  Alert,
+  IconButton,
+  CircularProgress,
+  Chip,
+} from "@mui/material";
 import { toast } from "react-toastify";
-import { Alert, Collapse, IconButton } from "@mui/material";
+import { Person } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  const [name, setName] = useState("");
-  const [error, setError] = useState("");
-  let [profiles, setProfiles] = useState([]);
-
-  const { token } = useToken();
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState(null);
+  const token = useToken();
+  const userId = sessionStorage.getItem("user id");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function getName() {
+    async function fetchProfile() {
+      if (profile) return; // Prevent re-fetching if profile is already set.
+
       try {
         const { data, status } = await axios.get(
-          `https://le-travaille-server.onrender.com/user/dashboard/`,
+          `https://le-travaille-server.onrender.com/user/${userId}`,
           {
             headers: { token: token },
           }
         );
 
         if (status === 200) {
-          setName(data[0].username);
-          setProfiles(data);
+          setProfile(data);
         } else {
           toast.error(data.message || "Error fetching data");
         }
@@ -35,84 +48,139 @@ const Dashboard = () => {
         if (err.response && err.response.status === 401) {
           toast.error("Your session has expired! Please log in again.");
           setTimeout(() => {
-            window.replace("/auth/login");
+            navigate("/auth/login", { replace: true });
           }, 3000);
         } else {
-          setError(err.message);
+          setError(err.response?.data?.message);
         }
       }
     }
 
-    getName();
+    if (userId) {
+      fetchProfile();
+    } else {
+      setError("No user ID provided");
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [userId, token]);
 
   return (
-    <div className="text-center mt-5">
-      <div className="container">
-        {error && (
-          <Collapse in={error}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setError(null);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {error}
-            </Alert>
-          </Collapse>
-        )}
-      </div>
-      <h3 className="font-weight-bold">Welcome, {name}!</h3>
+    <Box sx={{ padding: 3 }}>
+      {error && (
+        <Collapse in={Boolean(error)}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setError(null);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            {error}
+          </Alert>
+        </Collapse>
+      )}
 
-      <div className="container">
-        {profiles?.map((profile) => (
-          <div className="row mt-5" key={profile.user_id}>
-            <div className="col-lg-3 col-sm-6">
-              <div className="card hovercard">
-                <div className="cardheader"></div>
-                <div className="avatar">
-                  <img src={profile.image_url} alt="user's avatar" />
-                </div>
-                <div className="info">
-                  <div
-                    className="title font-weight-bold"
-                    style={{ textTransform: "capitalize" }}
-                  >
-                    {profile.username}
-                  </div>
+      {profile ? (
+        <Grid container spacing={3} justifyContent="center">
+          <Grid item xs={12} md={3}>
+            <Paper sx={{ padding: 2, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>
+                Welcome, {profile.username}!
+              </Typography>
 
-                  <div className="desc text-left">Email: {profile.email}</div>
-                  <div className="desc text-left">Age: {profile.age}</div>
-                  <div className="desc text-left">Degree: {profile.degree}</div>
-                  <div className="desc text-left">
-                    Experience: {profile.experience}
-                  </div>
-                  <div className="desc text-left">
-                    Location: {profile.location}
-                  </div>
-                </div>
-                <div className="bottom btn-group">
-                  <UpdateProfile profile={profile} />
+              <Avatar
+                src={profile.image_url}
+                alt={`${profile.username}`}
+                sx={{
+                  width: 100,
+                  height: 100,
+                  marginBottom: 3,
+                  marginX: "auto",
+                }}
+              >
+                {!profile.image_url && <Person />}
+              </Avatar>
 
-                  <DeleteProfile profile={profile} />
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+              <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+                <UpdateProfile profile={profile} />
+
+                <DeleteProfile profile={profile} />
+              </Box>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} md={8}>
+            <Paper sx={{ padding: 2 }}>
+              <Typography
+                variant="h6"
+                sx={{ textAlign: "center" }}
+                gutterBottom
+              >
+                Profile Summary
+              </Typography>
+
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                    <Chip label="Email" color="textSecondary" />
+                    <span>{profile.email}</span>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                    <Chip label="Age" color="textSecondary" />
+                    <span>{profile.age}</span>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                    <Chip label="Degree" color="textSecondary" />
+                    <span>{profile.degree}</span>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                    <Chip label="Experience" color="textSecondary" />
+                    <span>{profile.experience}</span>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                    <Chip label="Location" color="textSecondary" />
+                    <span>{profile.location}</span>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
+    </Box>
   );
 };
 

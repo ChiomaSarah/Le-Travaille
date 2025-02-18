@@ -32,15 +32,6 @@ html {
   transition: 0.5s;
 }
 
-.update-btn,
-.delete-btn {
-  background: #f7e6da;
-  color: #343a40;
-  border-radius: 0.5rem;
-  transition: background 200ms ease-in, color 200ms ease-in;
-  box-shadow: 6px 6px 6px #a2a1a1, -6px -6px 6px rgb(164, 163, 163);
-}
-
 .update-btn:hover {
   transition: 0.5s;
   background: #02468a;

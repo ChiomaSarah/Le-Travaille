@@ -8,17 +8,16 @@ import {
   CircularProgress,
   Alert,
   Typography,
+  Collapse,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
 import axios from "axios";
-import useToken from "../../utils/useToken";
+import useToken from "../../../utils/useToken";
 import { toast } from "react-toastify";
 import { AuthFormsContainer, FormCard } from "./AuthForms";
-import {
-  neumorphismButtonStyle,
-  neumorphismInputStyle,
-} from "../../utils/neumorphism";
+import { neumorphismInputStyle } from "../../../utils/neumorphism";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +26,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { setToken } = useToken();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     try {
@@ -45,15 +45,16 @@ const Login = () => {
       setToken(data);
 
       if (status === 200) {
-        toast.success("Login Successful!");
-        window.location = "/user/dashboard";
+        toast.success(data.message);
+        sessionStorage.setItem("user id", data.user.userId);
+        navigate("/user/dashboard");
       } else {
         toast.error(error.response.data.message);
       }
     } catch (err) {
       setIsLoading(false);
       console.log(err);
-      setError(err.response.data.error);
+      setError(err.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -97,13 +98,13 @@ const Login = () => {
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             label="Email"
-            type="email"
+            variant="outlined"
             fullWidth
+            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            type="email"
             required
-            margin="normal"
-            variant="outlined"
             slotProps={{
               inputLabel: {
                 shrink: Boolean(email),
@@ -113,12 +114,19 @@ const Login = () => {
               },
             }}
             sx={{
+              "& .MuiOutlinedInput-root": {
+                height: "40px",
+                "& input": {
+                  padding: "8px 14px",
+                  fontSize: "14px",
+                },
+              },
               "& .MuiInputLabel-root": {
                 position: "absolute",
                 left: "14px",
-                fontSize: "0.875rem",
+                fontSize: "0.8rem",
                 transition: "top 0.2s ease, font-size 0.2s ease",
-                color: "#F0F0F0",
+                color: email ? "#F0F0F0" : "black",
                 top:
                   email ||
                   document.activeElement ===
@@ -132,19 +140,19 @@ const Login = () => {
                 top: "-10px",
                 fontSize: "0.75rem",
               },
-              marginBottom: "1.5rem",
+              marginBottom: "0.75rem",
             }}
           />
 
           <TextField
             label="Password"
-            type={showPassword ? "text" : "password"}
+            variant="outlined"
             fullWidth
+            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            type={showPassword ? "text" : "password"}
             required
-            margin="normal"
-            variant="outlined"
             slotProps={{
               inputLabel: {
                 shrink: Boolean(password),
@@ -164,12 +172,19 @@ const Login = () => {
               },
             }}
             sx={{
+              "& .MuiOutlinedInput-root": {
+                height: "40px",
+                "& input": {
+                  padding: "8px 14px",
+                  fontSize: "14px",
+                },
+              },
               "& .MuiInputLabel-root": {
                 position: "absolute",
                 left: "14px",
-                fontSize: "0.875rem",
+                fontSize: "0.8rem",
                 transition: "top 0.2s ease, font-size 0.2s ease",
-                color: "#F0F0F0",
+                color: password ? "#F0F0F0" : "black",
                 top:
                   password ||
                   document.activeElement ===
@@ -183,14 +198,51 @@ const Login = () => {
                 top: "-10px",
                 fontSize: "0.75rem",
               },
-              marginBottom: "1rem",
+              marginBottom: "1.5rem",
             }}
           />
 
+          <Typography
+            variant="body2"
+            align="right"
+            sx={{
+              marginTop: "-10px",
+              marginBottom: "10px",
+              color: "#d7c7bb",
+              textTransform: "none",
+            }}
+          >
+            <span
+              onClick={() => (window.location.href = "/auth/forgot-password")}
+              style={{
+                color: "#fff",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
+            >
+              Forgot Password?
+            </span>
+          </Typography>
+
           {error && (
-            <Alert variant="filled" severity="error" className="mb-3">
-              {error}
-            </Alert>
+            <Collapse in={Boolean(error)}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => setError("")}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {error}
+              </Alert>
+            </Collapse>
           )}
 
           <Button
@@ -198,7 +250,10 @@ const Login = () => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={neumorphismButtonStyle}
+            sx={{
+              backgroundColor: "#FFD700",
+              "&:hover": { backgroundColor: "#FFB800" },
+            }}
             disabled={isLoading}
             startIcon={
               isLoading ? (

@@ -15,7 +15,7 @@ export const AuthFormsContainer = styled(Box)({
 });
 
 export const FormCard = styled(Paper)({
-  maxWidth: 500,
+  maxWidth: 400,
   width: "100%",
   padding: "2rem",
   borderRadius: "8px",

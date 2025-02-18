@@ -1,18 +1,18 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     const userToken = JSON.parse(sessionStorage.getItem("token"));
     const isAuthenticated = userToken && userToken.token;
 
     if (isAuthenticated) {
-      history.push("/jobs");
+      navigate("/jobs");
     } else {
-      history.push("/job_seeker");
+      navigate("/job_seeker");
     }
   };
 

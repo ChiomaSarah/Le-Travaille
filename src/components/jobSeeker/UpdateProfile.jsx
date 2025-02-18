@@ -1,38 +1,52 @@
-import { Modal, Button } from "react-bootstrap";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { toast } from "react-toastify";
+import {
+  Modal,
+  Button,
+  TextField,
+  CircularProgress,
+  Box,
+  Typography,
+  Collapse,
+  Alert,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = ({ profile }) => {
   const [username, setUsername] = useState(profile.username);
   const [email] = useState(profile.email);
-  const [password] = useState(profile.password);
   const [age, setAge] = useState(profile.age);
   const [degree, setDegree] = useState(profile.degree);
   const [experience, setExperience] = useState(profile.experience);
   const [location, setLocation] = useState(profile.location);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShow] = useState(false);
+  const navigate = useNavigate();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [showModal, setShow] = useState(false);
 
   async function saveChanges(e) {
     try {
       e.preventDefault();
-      const body = {
+      setIsLoading(true);
+
+      const payload = {
         username,
         email,
-        password,
         age,
         degree,
         experience,
         location,
       };
 
-      const { status } = await axios.patch(
-        `https://le-travaille-server.onrender.com/user/dashboard/${profile.user_id}`,
-        body,
+      const { data, status } = await axios.patch(
+        `https://le-travaille-server.onrender.com/user/${profile.user_id}`,
+        payload,
         {
           headers: {
             "Content-Type": "application/json",
@@ -40,11 +54,14 @@ const UpdateProfile = ({ profile }) => {
         }
       );
 
+      setIsLoading(false);
+
       if (status === 200) {
-        toast.success("Profile Updated!");
-        window.location = "/user/dashboard";
+        toast.success(data.message);
+        navigate("/user/dashboard");
       }
     } catch (err) {
+      setIsLoading(false);
       setError(
         err.response?.data?.message || "Something went wrong. Please try again."
       );
@@ -53,123 +70,140 @@ const UpdateProfile = ({ profile }) => {
 
   return (
     <>
-      <Button className="update-btn" onClick={handleShow}>
+      <Button variant="contained" color="primary" onClick={handleShow}>
         Update
       </Button>
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
-        </Modal.Header>
 
-        <Modal.Body>
-          <input
-            onChange={(e) => setUsername(e.target.value)}
-            name="username"
-            value={username}
-            type="text"
-            className="form-control"
-            placeholder="Username"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
-        <Modal.Body>
-          <input
-            name="email"
-            value={email}
-            type="email"
-            disabled={true}
-            className="form-control"
-            placeholder="Email"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
-        <Modal.Body>
-          <input
-            name="password"
-            value={password}
-            type="password"
-            disabled={true}
-            className="form-control"
-            placeholder="Password"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
-        <Modal.Body>
-          <input
-            onChange={(e) => setAge(e.target.value)}
-            name="age"
-            value={age}
-            type="number"
-            min="18"
-            className="form-control"
-            placeholder="Age"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
+      <Modal open={showModal} onClose={handleClose}>
+        <Box
+          sx={{
+            width: 400,
+            backgroundColor: "white",
+            padding: 3,
+            borderRadius: 2,
+            boxShadow: 24,
+            margin: "auto",
+            marginTop: "3%",
+          }}
+        >
+          <Typography variant="h6" sx={{ textAlign: "center" }} gutterBottom>
+            Edit Profile
+          </Typography>
 
-        <Modal.Body>
-          <input
-            type="text"
-            onChange={(e) => setDegree(e.target.value)}
-            name="degree"
-            value={degree}
-            className="form-control"
-            placeholder="Degree"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
+          <form onSubmit={saveChanges}>
+            <TextField
+              fullWidth
+              label="Username"
+              value={username}
+              disabled
+              onChange={(e) => setUsername(e.target.value)}
+              margin="normal"
+              variant="outlined"
+              helperText="This field cannot be changed."
+            />
 
-        <Modal.Body>
-          <input
-            type="text"
-            onChange={(e) => setExperience(e.target.value)}
-            name="experience"
-            value={experience}
-            className="form-control"
-            placeholder="Experience"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
+            <TextField
+              fullWidth
+              label="Email"
+              value={email}
+              disabled
+              margin="normal"
+              variant="outlined"
+              helperText="This field cannot be changed."
+            />
 
-        <Modal.Body>
-          <input
-            type="text"
-            onChange={(e) => setLocation(e.target.value)}
-            name="location"
-            value={location}
-            className="form-control"
-            placeholder="Location"
-            style={{ background: "#f7e6da" }}
-          />
-        </Modal.Body>
+            <TextField
+              fullWidth
+              label="Age"
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              margin="normal"
+              variant="outlined"
+              required
+              slotProps={{
+                input: {
+                  min: 18,
+                },
+              }}
+            />
 
-        {error && (
-          <Modal.Body>
-            <div className="alert alert-danger" role="alert">
-              {error}
-            </div>
-          </Modal.Body>
-        )}
+            <TextField
+              fullWidth
+              label="Degree"
+              value={degree}
+              onChange={(e) => setDegree(e.target.value)}
+              margin="normal"
+              variant="outlined"
+              required
+            />
 
-        <Modal.Footer>
-          <Button
-            className="modal-btn"
-            type="button"
-            variant="success"
-            onClick={saveChanges}
-          >
-            Save Changes
-          </Button>
+            <TextField
+              fullWidth
+              label="Experience"
+              value={experience}
+              onChange={(e) => setExperience(e.target.value)}
+              margin="normal"
+              variant="outlined"
+              required
+            />
 
-          <Button
-            className="modal-btn"
-            type="button"
-            variant="secondary"
-            onClick={handleClose}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
+            <TextField
+              fullWidth
+              label="Location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              margin="normal"
+              variant="outlined"
+              required
+            />
+
+            {error && (
+              <Collapse in={Boolean(error)}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setError(null);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  {error}
+                </Alert>
+              </Collapse>
+            )}
+
+            <Box
+              sx={{ display: "flex", justifyContent: "flex-end", marginTop: 3 }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={isLoading}
+                sx={{ marginRight: 2 }}
+              >
+                {isLoading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
+
+              <Button variant="outlined" color="primary" onClick={handleClose}>
+                Close
+              </Button>
+            </Box>
+          </form>
+        </Box>
       </Modal>
     </>
   );

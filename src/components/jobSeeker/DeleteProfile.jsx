@@ -1,27 +1,36 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import useToken from "../../utils/useToken";
-import { Modal } from "react-bootstrap";
 import axios from "axios";
-import Alert from "@mui/material/Alert";
-import { Collapse, IconButton } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+  IconButton,
+  Collapse,
+  Alert,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
-const DeleteProfile = ({ profile }, props) => {
+const DeleteProfile = ({ profile }) => {
   const { token } = useToken();
   const [profiles, setProfiles] = useState([]);
-  let [error, setError] = useState("");
-  const [showModal, setShow] = useState(false);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   async function removeProfile(e, id) {
     try {
       e.preventDefault();
-      await axios.delete(
-        `https://le-travaille-server.onrender.com/user/dashboard/${profile.user_id}`,
+      const { data, status } = await axios.delete(
+        `https://le-travaille-server.onrender.com/user/${profile.user_id}`,
         {
           headers: {
             token: token,
@@ -29,19 +38,21 @@ const DeleteProfile = ({ profile }, props) => {
         }
       );
 
-      setProfiles(profiles.filter((profile) => profile.user_id !== id));
-      sessionStorage.removeItem("token");
-      toast.success("Your profile has been deleted!");
-      window.location = "/auth/signup";
+      if (status === 200) {
+        setProfiles(profiles.filter((profile) => profile.user_id !== id));
+        sessionStorage.removeItem("token");
+        toast.success(data.message);
+        navigate("/auth/signup");
+      }
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message);
     }
   }
 
   return (
     <>
       {error && (
-        <Collapse in={error}>
+        <Collapse in={Boolean(error)}>
           <Alert
             severity="error"
             action={
@@ -62,35 +73,37 @@ const DeleteProfile = ({ profile }, props) => {
           </Alert>
         </Collapse>
       )}
-      <Button className="delete-btn" onClick={handleShow}>
+
+      <Button variant="contained" color="error" onClick={handleShow}>
         Delete
       </Button>
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Profile</Modal.Title>
-        </Modal.Header>
 
-        <Modal.Body>Are you sure you want to delete your profile?</Modal.Body>
-        <Modal.Body>All registered data will be discarded.</Modal.Body>
-
-        <Modal.Footer>
+      <Dialog open={showModal} onClose={handleClose}>
+        <DialogTitle sx={{ textAlign: "center" }}>Delete Profile</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" color="textSecondary" paragraph>
+            Are you sure you want to delete your profile? This action is
+            irreversible and all your data will be lost.
+          </Typography>
+          {error && (
+            <Typography variant="body2" color="error">
+              {error}
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
           <Button
-            type="button"
-            className="btn-warning modal-btn"
             onClick={(e) => removeProfile(e, profile.user_id)}
+            color="error"
+            variant="contained"
           >
             Delete
           </Button>
-
-          <Button
-            type="button"
-            className="btn-secondary modal-btn"
-            onClick={handleClose}
-          >
-            Close
+          <Button onClick={handleClose} color="primary" variant="outlined">
+            Cancel
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
