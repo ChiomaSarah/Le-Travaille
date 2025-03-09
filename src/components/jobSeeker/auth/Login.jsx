@@ -9,15 +9,17 @@ import {
   Alert,
   Typography,
   Collapse,
+  Card,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
-import useToken from "../../../utils/useToken";
 import { toast } from "react-toastify";
-import { AuthFormsContainer, FormCard } from "./AuthForms";
+import { AuthFormsContainer } from "./AuthForms";
 import { neumorphismInputStyle } from "../../../utils/neumorphism";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../../app-store/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,36 +27,31 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { setToken } = useToken();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
     try {
-      e.preventDefault();
-      setIsLoading(true);
-
-      const payload = {
-        email,
-        password,
-      };
-
+      const payload = { email, password };
       const { data, status } = await axios.post(
         "https://le-travaille-server.onrender.com/auth/login",
         payload
       );
-      setToken(data);
 
       if (status === 200) {
         toast.success(data.message);
         sessionStorage.setItem("user id", data.user.userId);
+        dispatch(setAuth({ token: data.token, userId: data.user.userId }));
         navigate("/user/dashboard");
       } else {
         toast.error(error.response.data.message);
       }
     } catch (err) {
-      setIsLoading(false);
       console.log(err);
-      setError(err.response.data.message);
+      setError(err.response?.data?.message || "Login failed");
     } finally {
       setIsLoading(false);
     }
@@ -62,14 +59,24 @@ const Login = () => {
 
   return (
     <AuthFormsContainer>
-      <FormCard sx={{ background: "#346B92" }}>
+      <Card
+        sx={{
+          maxWidth: 400,
+          padding: 3,
+          backgroundColor: "#346B92",
+          color: "#fff",
+          boxShadow: 4,
+          textAlign: "center",
+          marginTop: "-11rem",
+        }}
+      >
         <Typography
           variant="h4"
           align="center"
           gutterBottom
-          sx={{ color: "#fff" }}
+          sx={{ color: "#FFD700" }}
         >
-          Login
+          Welcome Back!
         </Typography>
 
         <Typography
@@ -252,7 +259,13 @@ const Login = () => {
             fullWidth
             sx={{
               backgroundColor: "#FFD700",
-              "&:hover": { backgroundColor: "#FFB800" },
+              fontWeight: "bold",
+              my: 2,
+              "&:hover": {
+                backgroundColor: "#FFB800",
+                transform: "scale(1.05)",
+              },
+              transition: "transform 0.2s ease-in-out",
             }}
             disabled={isLoading}
             startIcon={
@@ -266,7 +279,7 @@ const Login = () => {
             </span>
           </Button>
         </Box>
-      </FormCard>
+      </Card>
     </AuthFormsContainer>
   );
 };

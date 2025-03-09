@@ -4,8 +4,15 @@ import Grid from "@mui/material/Grid2";
 import Link from "@mui/material/Link";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import { useNavigate } from "react-router-dom";
 
 function Footer() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/job-seeker");
+  };
+
   return (
     <Box sx={{ backgroundColor: "#414E70", py: 4 }}>
       <Container maxWidth="lg">
@@ -19,17 +26,17 @@ function Footer() {
               <Button
                 variant="contained"
                 color="primary"
-                component={Link}
-                href="/job_seeker"
+                onClick={handleClick}
                 sx={{
-                  backgroundColor: "#f7e6da",
+                  backgroundColor: "#FFD700",
                   mt: 2,
-                  color: "#000",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#f7e6da",
-                    opacity: 0.8,
+                    fontWeight: "bold",
+                    backgroundColor: "#FFB800",
+                    transform: "scale(1.05)",
                   },
+                  transition: "transform 0.2s ease-in-out",
                 }}
               >
                 SIGN UP HERE
@@ -54,6 +61,7 @@ function Footer() {
               sx={{
                 color: "#f7e6da",
                 padding: "8px 16px",
+                fontWeight: "bold",
                 "&:hover": {
                   backgroundColor: "#f7e6da",
                   borderRadius: "50px",

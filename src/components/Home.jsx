@@ -12,7 +12,7 @@ const Home = () => {
     if (isAuthenticated) {
       navigate("/jobs");
     } else {
-      navigate("/job_seeker");
+      navigate("/job-seeker");
     }
   };
 
@@ -57,9 +57,14 @@ const Home = () => {
             <Button
               variant="contained"
               sx={{
-                backgroundColor: "#4caf50",
+                fontWeight: "bold",
+                backgroundColor: "#FFD700",
                 color: "#fff",
-                borderRadius: "8px",
+                "&:hover": {
+                  backgroundColor: "#FFB800",
+                  transform: "scale(1.05)",
+                },
+                transition: "transform 0.2s ease-in-out",
               }}
               onClick={handleButtonClick}
             >
@@ -79,6 +84,7 @@ const Home = () => {
             position: "relative",
           }}
         >
+          {/* Add the overlay to darken the background image */}
           <Box
             sx={{
               position: "absolute",
@@ -91,6 +97,7 @@ const Home = () => {
               zIndex: 1,
             }}
           />
+
           <img
             src="https://i.ibb.co/mh7GRRf/Man-Searching-for-a-Job-removebg.png"
             alt="A professional man searching for a job, representing career opportunities"

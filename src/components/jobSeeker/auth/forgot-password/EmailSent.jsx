@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { AuthFormsContainer } from "../AuthForms";
 
 const EmailSent = () => {
   const [countdown, setCountdown] = useState(0);
@@ -95,16 +96,7 @@ const EmailSent = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        background: "#f0f0f0",
-        padding: "20px",
-      }}
-    >
+    <AuthFormsContainer>
       {/* Animate card */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -164,8 +156,13 @@ const EmailSent = () => {
               onClick={openEmailService}
               sx={{
                 backgroundColor: "#FFD700",
-                "&:hover": { backgroundColor: "#FFB800" },
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "#FFB800",
+                  transform: "scale(1.05)",
+                },
                 marginBottom: 2,
+                transition: "transform 0.2s ease-in-out",
               }}
             >
               Go to Your Email
@@ -200,7 +197,7 @@ const EmailSent = () => {
           </CardContent>
         </Card>
       </motion.div>
-    </Box>
+    </AuthFormsContainer>
   );
 };
 

@@ -16,7 +16,7 @@
 
 body,
 html {
-  background: #346b92;
+  background: linear-gradient(135deg, #346b92, rgb(24, 121, 173));
   font-family: "Play", serif;
 }
 

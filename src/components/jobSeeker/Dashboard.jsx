@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import useToken from "../../utils/useToken";
 import UpdateProfile from "./UpdateProfile";
 import DeleteProfile from "./DeleteProfile";
 import axios from "axios";
@@ -19,13 +18,14 @@ import { toast } from "react-toastify";
 import { Person } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
-  const token = useToken();
   const userId = sessionStorage.getItem("user id");
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     async function fetchProfile() {

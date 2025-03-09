@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-import Loader from "./ui/LoadingLoop";
 import axios from "axios";
-import useToken from "../utils/useToken";
 import {
   Alert,
   Button,
@@ -14,19 +11,23 @@ import {
   InputBase,
   Pagination,
   Typography,
+  Grid,
+  Paper,
+  Skeleton,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-
 import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
+import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 function Jobs() {
-  const { token } = useToken();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage] = useState(5);
+  const [jobsPerPage] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     async function getJobs() {
@@ -36,13 +37,12 @@ function Jobs() {
           "https://le-travaille-server.onrender.com/api/jobs",
           {
             headers: {
-              Accept: "application/json, text/plain, */*",
+              Accept: "application/json",
               "Content-Type": "application/json",
               token: token,
             },
           }
         );
-
         setLoading(false);
         if (status === 200) {
           setJobs(data.items);
@@ -56,18 +56,15 @@ function Jobs() {
         setError(err.response?.data?.error || "An unknown error occurred");
       }
     }
-
     getJobs();
   }, [token]);
 
-  const filteredJobs = jobs.filter((job) => {
-    return (
-      job.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.contract.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.location.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+  const filteredJobs = jobs.filter((job) =>
+    [job.position, job.company, job.contract, job.location]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
 
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
@@ -77,128 +74,149 @@ function Jobs() {
     setCurrentPage(value);
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
-    <Container maxWidth="md" style={{ marginTop: "2em", marginBottom: "2em" }}>
-      <Typography
-        variant="h4"
-        component="h1"
-        align="center"
-        gutterBottom
-        style={{ fontWeight: "bold" }}
-      >
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h4" fontWeight={600} gutterBottom color="#FFD700">
         Job Listings
       </Typography>
 
-      {error && (
-        <Collapse in={error}>
-          <Alert
-            severity="error"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setError(null);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2 }}
-          >
-            {error}
-          </Alert>
-        </Collapse>
+      {filteredJobs.length > 0 && (
+        <Paper
+          elevation={3}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            p: 2,
+            mb: 4,
+            borderRadius: 2,
+          }}
+        >
+          <SearchIcon sx={{ mx: 1 }} />
+          <InputBase
+            placeholder="Search jobs..."
+            fullWidth
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </Paper>
       )}
 
-      {/* <TextField
-        variant="outlined"
-        placeholder="Search for a job..."
-        fullWidth
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        style={{ marginBottom: "1.5em" }}
-      /> */}
+      <Collapse in={!!error}>
+        <Alert
+          severity="error"
+          action={
+            <IconButton size="small" onClick={() => setError("")}>
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          {error}
+        </Alert>
+      </Collapse>
 
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search for a job..."
-        inputProps={{ "aria-label": "Search for a job..." }}
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-
-      <Grid container spacing={3}>
-        {currentJobs.map((job) => (
-          <Grid item xs={12} sm={6} md={6} key={job.id}>
-            <Card elevation={3}>
-              <CardContent>
-                <Typography variant="h6" component="h2" gutterBottom>
-                  {job.position}
-                </Typography>
-                <Typography color="textSecondary" gutterBottom>
-                  {job.company}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {job.contract} | {job.location}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="error"
-                  style={{ marginTop: "0.5em" }}
+      {loading ? (
+        <Grid container spacing={4} justifyContent="center">
+          {Array.from({ length: jobsPerPage }).map((_, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card elevation={4} sx={{ borderRadius: 3, p: 3, width: "100%" }}>
+                <CardContent>
+                  <Skeleton variant="text" width="80%" height={24} />
+                  <Skeleton
+                    variant="text"
+                    width="60%"
+                    height={20}
+                    sx={{ mt: 1 }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width="70%"
+                    height={18}
+                    sx={{ mt: 1 }}
+                  />
+                  <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height={40}
+                    sx={{ mt: 2, borderRadius: 2 }}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Grid container spacing={4} justifyContent="center">
+          {currentJobs.map((job) => (
+            <Grid item xs={12} sm={6} md={4} key={job.id}>
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <Card
+                  elevation={4}
+                  sx={{ borderRadius: 3, p: 3, width: "100%" }}
                 >
-                  Deadline:{" "}
-                  {job.expiryDate
-                    ? new Date(job.expiryDate).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })
-                    : "Not Specified"}
-                </Typography>
+                  <CardContent>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      {job.position}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {job.company}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {job.location} • {job.contract}
+                    </Typography>
+                    <Typography>
+                      Deadline:{" "}
+                      {job.expiryDate
+                        ? new Date(job.expiryDate).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : "Not Specified"}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      sx={{
+                        backgroundColor: "#FFD700",
+                        fontWeight: "bold",
+                        "&:hover": { backgroundColor: "#FFB800" },
+                        mt: 2,
+                      }}
+                    >
+                      Apply Now
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{
-                    marginTop: "1em",
-                    textDecoration: "none",
-                  }}
-                  fullWidth
-                  component="a"
-                  href={job.link || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  disabled={!job.link}
-                  onMouseOver={(e) => {
-                    e.target.style.fontWeight = "bold";
-                    e.target.style.color = "white";
-                  }}
-                  onMouseOut={(e) => {
-                    e.target.style.fontWeight = "normal";
-                    e.target.style.color = "white";
-                  }}
-                >
-                  Apply Now
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Pagination
-        count={Math.ceil(filteredJobs.length / jobsPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-        color="primary"
-        style={{ marginTop: "2em", display: "flex", justifyContent: "center" }}
-      />
+      {filteredJobs.length > jobsPerPage && (
+        <Pagination
+          count={Math.ceil(filteredJobs.length / jobsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+          sx={{
+            mt: 4,
+            display: "flex",
+            justifyContent: "center",
+            "& .MuiPaginationItem-root": {
+              color: "#FFD700", // Pagination items (unselected).
+            },
+            "& .Mui-selected": {
+              backgroundColor: "#FFB800",
+              color: "#fff",
+            },
+            "& .MuiPaginationItem-ellipsis": {
+              color: "#FFD700",
+            },
+          }}
+        />
+      )}
     </Container>
   );
 }

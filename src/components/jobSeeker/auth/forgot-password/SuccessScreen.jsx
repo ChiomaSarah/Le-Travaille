@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Card, CardContent, Typography, Box } from "@mui/material";
-import { motion } from "framer-motion"; // For animations
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // Success checkmark icon
+import { Button, Card, CardContent, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
+import { AuthFormsContainer } from "../AuthForms";
 
 const SuccessScreen = () => {
   const navigate = useNavigate();
@@ -11,16 +12,7 @@ const SuccessScreen = () => {
     navigate("/auth/login");
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        background: "#f0f0f0",
-        padding: "20px",
-      }}
-    >
+    <AuthFormsContainer>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -69,7 +61,11 @@ const SuccessScreen = () => {
               onClick={handleClick}
               sx={{
                 backgroundColor: "#FFD700",
-                "&:hover": { backgroundColor: "#FFB800" },
+                "&:hover": {
+                  backgroundColor: "#FFB800",
+                  transform: "scale(1.05)",
+                },
+                transition: "transform 0.2s ease-in-out",
               }}
             >
               Continue to Login
@@ -77,7 +73,7 @@ const SuccessScreen = () => {
           </CardContent>
         </Card>
       </motion.div>
-    </Box>
+    </AuthFormsContainer>
   );
 };
 

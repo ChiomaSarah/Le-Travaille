@@ -12,16 +12,19 @@ import {
   StepLabel,
   CircularProgress,
   Typography,
+  Card,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { CloudUpload, Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import useToken from "../../../utils/useToken";
 import { toast } from "react-toastify";
-import { AuthFormsContainer, FormCard } from "./AuthForms";
+import { AuthFormsContainer } from "./AuthForms";
 import { neumorphismInputStyle } from "../../../utils/neumorphism";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { setAuth } from "../../../app-store/authSlice";
+import { useDispatch } from "react-redux";
 
 const SignUp = () => {
   const [payload, setPayload] = useState({
@@ -38,8 +41,8 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { setToken } = useToken();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (name) => (e) => {
     const value = name === "image" ? e.target.files[0] : e.target.value;
@@ -74,9 +77,9 @@ const SignUp = () => {
         formData
       );
 
-      setToken(data);
-
       if (status === 201) {
+        dispatch(setAuth({ token: data.token }));
+
         toast.success(
           "Welcome onboard! You will be redirected to the login screen in a moment."
         );
@@ -92,7 +95,7 @@ const SignUp = () => {
     }
   }
 
-  // Check if all fields for the curresnt steps are filled.
+  // Check if all fields for the current steps are filled.
   const isComplete = () => {
     if (currentStep === 0) {
       return !(payload.username && payload.email && payload.password);
@@ -108,12 +111,21 @@ const SignUp = () => {
 
   return (
     <AuthFormsContainer>
-      <FormCard sx={{ background: "#346B92" }}>
+      <Card
+        sx={{
+          maxWidth: 400,
+          padding: 3,
+          backgroundColor: "#346B92",
+          color: "#fff",
+          boxShadow: 4,
+          textAlign: "center",
+        }}
+      >
         <Typography
           variant="h4"
           align="center"
           gutterBottom
-          sx={{ color: "#fff" }}
+          sx={{ color: "#FFD700" }}
         >
           Sign Up
         </Typography>
@@ -175,11 +187,15 @@ const SignUp = () => {
                       "& .Mui-active .MuiStepLabel-label": {
                         color: "white",
                       },
+
                       "& .Mui-completed .MuiStepLabel-label": {
                         color: "white",
                       },
                       "& .Mui-completed .MuiStepIcon-root": {
                         color: "white", // Keeps checkmark white when step is completed.
+                      },
+                      "& .MuiStepIcon-root.Mui-active": {
+                        color: "#FFD700",
                       },
                       marginBottom: "3rem",
                     }}
@@ -193,7 +209,11 @@ const SignUp = () => {
 
           {/* Step 1: Account Info */}
           {currentStep === 0 && (
-            <>
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <TextField
                 label="Username"
                 variant="outlined"
@@ -346,12 +366,16 @@ const SignUp = () => {
                   marginBottom: "1.5rem",
                 }}
               />
-            </>
+            </motion.div>
           )}
 
           {/* Step 2: Personal Info */}
           {currentStep === 1 && (
-            <>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <TextField
                 label="Age"
                 variant="outlined"
@@ -487,15 +511,19 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "1.5rem",
+                  marginBottom: "0.75rem",
                 }}
               />
-            </>
+            </motion.div>
           )}
 
           {/* Step 3: Location & Image */}
           {currentStep === 2 && (
-            <>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <TextField
                 label="Location"
                 variant="outlined"
@@ -538,11 +566,16 @@ const SignUp = () => {
                     top: "-10px",
                     fontSize: "0.75rem",
                   },
-                  marginBottom: "1.5rem",
+                  marginBottom: "0.75rem",
                 }}
               />
-
-              <Box sx={{ marginBottom: "3rem" }}>
+              <Box
+                sx={{
+                  marginBottom: "3rem",
+                  display: "flex",
+                  justifyContent: "flex-start",
+                }}
+              >
                 <Button
                   variant="contained"
                   component="label"
@@ -582,20 +615,24 @@ const SignUp = () => {
                   </Box>
                 )}
               </Box>
-            </>
+            </motion.div>
           )}
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              {currentStep > 0 && (
+          <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
+            <Grid item xs={5}>
+              {currentStep !== 0 && (
                 <Button
-                  variant="contained"
+                  fullWidth
+                  variant="outlined"
                   onClick={handlePrevStep}
+                  disabled={loading}
                   sx={{
                     color: "#FFF",
                     backgroundColor: "#4C85B7",
                     boxShadow:
                       "8px 8px 20px rgba(0, 0, 0, 0.2), -8px -8px 20px rgba(255, 255, 255, 0.1)",
+                    fontWeight: "bold",
+                    my: 2,
                     "&:hover": {
                       backgroundColor: "#346B92",
                       boxShadow:
@@ -608,42 +645,46 @@ const SignUp = () => {
               )}
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              {currentStep < 2 ? (
+            <Grid item xs={5}>
+              {currentStep === 2 ? (
                 <Button
+                  fullWidth
                   variant="contained"
-                  color="primary"
-                  onClick={handleNextStep}
+                  onClick={handleSubmit}
+                  disabled={isComplete() || loading}
                   sx={{
                     backgroundColor: "#FFD700",
+                    marginBottom: 2,
                     "&:hover": { backgroundColor: "#FFB800" },
                   }}
-                  disabled={isComplete()}
                 >
-                  Next
+                  {loading ? <CircularProgress size={24} /> : "Sign Up"}
                 </Button>
               ) : (
                 <Button
+                  fullWidth
                   variant="contained"
-                  color="primary"
-                  type="submit"
+                  onClick={handleNextStep}
+                  disabled={isComplete()}
                   sx={{
                     backgroundColor: "#FFD700",
-                    "&:hover": { backgroundColor: "#FFB800" },
+                    marginBottom: 2,
+                    fontWeight: "bold",
+                    my: 2,
+                    "&:hover": {
+                      backgroundColor: "#FFB800",
+                      transform: "scale(1.05)",
+                    },
+                    transition: "transform 0.2s ease-in-out",
                   }}
-                  disabled={loading || isComplete()}
                 >
-                  {loading ? (
-                    <CircularProgress size={24} color="white" />
-                  ) : (
-                    "Sign Up"
-                  )}
+                  Next
                 </Button>
               )}
             </Grid>
           </Grid>
         </Box>
-      </FormCard>
+      </Card>
     </AuthFormsContainer>
   );
 };

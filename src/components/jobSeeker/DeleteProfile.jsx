@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import useToken from "../../utils/useToken";
 import axios from "axios";
 import {
   Button,
@@ -15,13 +14,14 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const DeleteProfile = ({ profile }) => {
-  const { token } = useToken();
   const [profiles, setProfiles] = useState([]);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
