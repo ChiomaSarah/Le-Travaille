@@ -80,26 +80,37 @@ function Jobs() {
         Job Listings
       </Typography>
 
-      {filteredJobs.length > 0 && (
-        <Paper
-          elevation={3}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            p: 2,
-            mb: 4,
-            borderRadius: 2,
-          }}
-        >
-          <SearchIcon sx={{ mx: 1 }} />
-          <InputBase
-            placeholder="Search jobs..."
-            fullWidth
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </Paper>
-      )}
+      <Paper
+        elevation={3}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          p: 2,
+          mb: 4,
+          borderRadius: 2,
+        }}
+      >
+        <SearchIcon sx={{ mx: 1 }} />
+        <InputBase
+          placeholder="Search jobs..."
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{ mr: 1 }}
+        />
+        {searchQuery && (
+          <IconButton
+            onClick={() => setSearchQuery("")}
+            size="small"
+            sx={{
+              color: "#FFD700",
+              "&:hover": { backgroundColor: "#FFF8DC" },
+            }}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        )}
+      </Paper>
 
       <Collapse in={!!error}>
         <Alert
@@ -145,7 +156,7 @@ function Jobs() {
             </Grid>
           ))}
         </Grid>
-      ) : (
+      ) : currentJobs.length > 0 ? (
         <Grid container spacing={4} justifyContent="center">
           {currentJobs.map((job) => (
             <Grid item xs={12} sm={6} md={4} key={job.id}>
@@ -192,6 +203,10 @@ function Jobs() {
             </Grid>
           ))}
         </Grid>
+      ) : (
+        <Typography align="center" color="#fff" sx={{ mt: 4 }}>
+          No jobs found matching your search.
+        </Typography>
       )}
 
       {filteredJobs.length > jobsPerPage && (
