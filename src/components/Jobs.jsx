@@ -194,6 +194,11 @@ function Jobs() {
                         "&:hover": { backgroundColor: "#FFB800" },
                         mt: 2,
                       }}
+                      onClick={() => {
+                        if (job.link) {
+                          window.open(job.link, "_blank");
+                        }
+                      }}
                     >
                       Apply Now
                     </Button>
